@@ -12,8 +12,8 @@ namespace Racing
         string name;
         double speed = 0;
         double mileage = 0;
-        readonly double acceleration;
         readonly double maxspeed;
+        readonly double acceleration;
 
         string Name
         {
@@ -24,7 +24,14 @@ namespace Racing
         double Speed
         {
             get { return speed; }
-            set { speed = value; }
+            set 
+            {
+                speed = value;
+                if (speed >= maxspeed)
+                {
+                    speed = maxspeed;
+                }
+            }
         }
 
         double Mileage
@@ -50,7 +57,7 @@ namespace Racing
             acceleration = 100 / Acceleration;
         }
 
-        public void Drive(double Distance) 
+        void Drive(double Distance, double MaxSpeed) 
         {
             var timer = new Stopwatch();
             timer.Start();
@@ -59,20 +66,44 @@ namespace Racing
             {
                 if ((timer.ElapsedMilliseconds - lastTime) > 1000)
                 {
-                    Console.WriteLine($"lastTime: {lastTime/1000} сек. \t speed: {(int)speed} км/ч\t mileage: {(int)mileage} м.");
-                    if (speed < Maxspeed)
+                    Console.WriteLine($"Speed: {(int)speed}\t Time: {lastTime / 1000} сек.\t Mileage: {(int)mileage}");
+                    if (Speed < MaxSpeed)
                     {
-                        speed += acceleration;
-                        if(speed >= Maxspeed)
-                           speed = Maxspeed; 
+                        Speed += acceleration;
+                        if(speed >= MaxSpeed)
+                           speed = MaxSpeed; 
                     }
                     lastTime = timer.ElapsedMilliseconds;
                     mileage += (speed / 3.6);
+                    
                 }
             }
             while (mileage < Distance);
             timer.Stop();
-            Console.WriteLine($"lastTime: {lastTime / 1000} сек. \t speed: {(int)speed} км/ч\t mileage: {(int)mileage} м.");
+            Mileage = 0;
+        }
+
+        public void Trassa()
+        {
+            var timer = new Stopwatch();
+            int lap = 0;
+            int final = 2;
+            timer.Start();
+            var timeLap = timer.ElapsedMilliseconds;
+            Console.WriteLine("Старт");
+            while (lap <= final)
+            {
+                Drive(1200, 500);
+                Drive(300, 70);
+                Drive(1200, 500);
+                Drive(300, 70);
+                lap++;
+                timeLap = timer.ElapsedMilliseconds - timeLap;
+                Console.WriteLine($"Lap: {lap}\t Time lap: {timeLap / 1000} сек.");
+            }
+            Console.WriteLine("Финиш");
+            timer.Stop();
+            Console.WriteLine($"Total Time: {timer.ElapsedMilliseconds / 1000} сек.");
         }
     }
 }
