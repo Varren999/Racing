@@ -10,7 +10,8 @@ namespace Racing
     {
         static void Main(string[] args)
         {
-
+            Car car = new Car("", 9, 180);
+            car.Drive(1000);
         }
     }
 }
