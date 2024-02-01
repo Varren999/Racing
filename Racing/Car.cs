@@ -84,7 +84,7 @@ namespace Racing
         }
 
         //
-        public void Trassa()
+        public void Start()
         {
             var timer = new Stopwatch();
             int final = 3;          
@@ -94,10 +94,12 @@ namespace Racing
             for(int lap = 1; lap <= final; lap++)
             {
                 timer.Start();
+
                 Drive(1200, 500);
                 Drive(300, 70);
                 Drive(1200, 500);
                 Drive(300, 70);
+
                 timer.Stop();
                 totalTime += timer.ElapsedMilliseconds;
                 Console.WriteLine($"Name: {name}\tLap: {lap}\t Time lap: {timer.ElapsedMilliseconds / 1000} сек.");
