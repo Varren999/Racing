@@ -15,6 +15,8 @@ namespace Racing
         readonly double maxspeed;
         readonly double acceleration;
 
+        Random random = new Random();
+
         string Name
         {
             get { return name; }
@@ -70,7 +72,7 @@ namespace Racing
                     //Console.WriteLine($"Speed: {(int)speed}\t Time: {lastTime / 1000} сек.\t Mileage: {(int)mileage}");
                     if (Speed <= maxspeed)
                     {
-                        Speed += acceleration;
+                        Speed += random.Next(0, (int)acceleration);
                         if(speed >= MaxSpeed)
                            speed = MaxSpeed; 
                     }
@@ -84,29 +86,29 @@ namespace Racing
         }
 
         //
-        public void Start()
+        public void Start(int countLap = 3)
         {
-            var timer = new Stopwatch();
-            int final = 3;          
-            long totalTime = 0;
+                var timer = new Stopwatch();
+                long totalTime = 0;
 
-            Console.WriteLine("Старт");
-            for(int lap = 1; lap <= final; lap++)
-            {
-                timer.Start();
+                Console.WriteLine($"Старт {name}");
+                for (int lap = 1; lap <= countLap; lap++)
+                {
+                    timer.Start();
 
-                Drive(1200, 500);
-                Drive(300, 70);
-                Drive(1200, 500);
-                Drive(300, 70);
+                    Drive(1200, 500);
+                    Drive(300, 70);
+                    Drive(1200, 500);
+                    Drive(300, 70);
 
-                timer.Stop();
-                totalTime += timer.ElapsedMilliseconds;
-                Console.WriteLine($"Name: {name}\tLap: {lap}\t Time lap: {timer.ElapsedMilliseconds / 1000} сек.");
-                timer.Reset();
-            }
-            Console.WriteLine("Финиш");
-            Console.WriteLine($"Name: {name}\tTotal Time: {totalTime / 1000} сек.");
+                    timer.Stop();
+                    totalTime += timer.ElapsedMilliseconds;
+                    Console.WriteLine($"Name: {name}\tLap: {lap}\t Time lap: {timer.ElapsedMilliseconds / 1000} сек.");
+                    timer.Reset();
+                }
+                Console.WriteLine("Финиш");
+                Console.WriteLine($"Name: {name}\tTotal Time: {totalTime / 1000} сек.");
+            
         }
     }
 }

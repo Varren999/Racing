@@ -17,15 +17,28 @@ namespace Racing
 {
     internal class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
-            SportCar vesta = new SportCar("Vesta Sport TCR", 4.6, 250);
-            SUV landCruiser = new SUV("Land Cruiser Prado", 13.8, 165);
-            Bus volgaBus = new Bus("VolgaBus", 0, 0);
-            Lorry kamaz = new Lorry("Kamaz", 0, 0);
-            vesta.Trassa();
+            int lap = 3;
+            Car[] car = new Car[] { new SportCar("Vesta Sport TCR", 4.6, 250),
+                                    new SUV("Land Cruiser Prado", 13.8, 165),
+                                    new Bus("VolgaBus", 20, 150),
+                                    new Lorry("Kamaz", 20, 160)};
+
+            Task[] task = new Task[car.Length];
+
+            for(int c = 0; c < car.Length; c++)
+            {
+                task[c] = Task.Run(() => car[c].Start(lap));
+            }
+
+            //Task task1 = Task.Run(() => car[2].Start(lap));
+            //Task task2 = Task.Run(() => car[3].Start(lap));
+            //Task task3 = Task.Run(() => car[1].Start(lap));
+            //Task task4 = Task.Run(() => car[0].Start(lap));
+            Task.WaitAll(task);
             
-            //car.Trassa();
+            
         }
     }
 }

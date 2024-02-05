@@ -8,9 +8,9 @@ namespace Racing
 {
     internal class Race
     {
-        public void Start()
+        public void Start(int countLap)
         {
-
+            
         }
     }
 }
