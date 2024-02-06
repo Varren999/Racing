@@ -10,6 +10,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,28 +18,65 @@ namespace Racing
 {
     internal class Program
     {
+        static void Sort(Car[] arr)
+        {
+            bool cycle = true;
+            while(cycle)
+            {
+                cycle = false;
+                for (int c = 0; c < arr.Length - 1; c++) 
+                {
+                    if(arr[c] > arr[c+1])
+                    {
+                        Car temp = arr[c + 1];
+                        arr[c + 1] = arr[c];
+                        arr[c] = temp;
+                        cycle = true;
+                    }
+                }
+            }
+        }
+
         static void Main()
         {
-            int lap = 3;
-            Car[] car = new Car[] { new SportCar("Vesta Sport TCR", 4.6, 250),
-                                    new SUV("Land Cruiser Prado", 13.8, 165),
-                                    new Bus("VolgaBus", 20, 150),
-                                    new Lorry("Kamaz", 20, 160)};
-
-            Task[] task = new Task[car.Length];
-
-            for(int c = 0; c < car.Length; c++)
+            try
             {
-                task[c] = Task.Run(() => car[c].Start(lap));
-            }
+                Console.WriteLine("Приложение гонки");
+                Console.Write("Введите количество кругов: ");
+                int lap = Convert.ToInt32(Console.ReadLine());
 
-            //Task task1 = Task.Run(() => car[2].Start(lap));
-            //Task task2 = Task.Run(() => car[3].Start(lap));
-            //Task task3 = Task.Run(() => car[1].Start(lap));
-            //Task task4 = Task.Run(() => car[0].Start(lap));
-            Task.WaitAll(task);
-            
-            
+                Car[] car = new Car[] { new Bus("VolgaBus", 20, 130),
+                                    new Lorry("Kamaz Sport", 16, 163),
+                                    new SUV("Land Cruiser Prado", 13.8, 165),
+                                    new SportCar("Vesta Sport TCR", 4.6, 250)};
+
+                Race race = new Race();
+
+                // 
+                foreach (var item in car)
+                {
+                    race.startRace += item.Start;
+                    race.stopRace += item.Finish;
+                }
+
+                //
+                race.Start(lap);
+
+                //
+                race.Finish();
+
+                //
+                Console.Clear();
+                Sort(car);
+                for(int c = 0; c < car.Length; c++)
+                {
+                    Console.WriteLine("{0,-8}{1,-2}{2,-7}{3,-25}{4,-12}{5,3}{6,0}","Место: ", c+1, "Name: ", car[c].Name, "Total time: ", car[c].TotalTime / 1000, " сек");
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }

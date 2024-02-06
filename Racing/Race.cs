@@ -8,9 +8,21 @@ namespace Racing
 {
     internal class Race
     {
+        public delegate void delRace(int lap);
+        public delegate void delFinRace();
+        public event delRace startRace;
+        public event delFinRace stopRace;
+
         public void Start(int countLap)
         {
-            
+            if (startRace != null)
+                startRace(countLap);
+        }
+
+        public void Finish()
+        {
+            if (stopRace != null)
+                stopRace();
         }
     }
 }
