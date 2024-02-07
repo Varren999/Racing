@@ -18,6 +18,7 @@ namespace Racing
 {
     internal class Program
     {
+        // Класическая сортировка пузырьком, Array.Sort выдавал ошибку, а времени ее искать не было, быстрее было написать свою сортировку.
         static void Sort(Car[] arr)
         {
             bool cycle = true;
@@ -52,26 +53,27 @@ namespace Racing
 
                 Race race = new Race();
 
-                // 
+                // Подписываем учасников на ивенты старт и финиш.
                 foreach (var item in car)
                 {
                     race.startRace += item.Start;
                     race.stopRace += item.Finish;
                 }
 
-                //
+                // Запускаем гонку.
                 race.Start(lap);
 
-                //
+                // Ждем когда все придут к финишу.
                 race.Finish();
 
-                //
+                // Очищаем экран, сортируем массив чтобы учаники с наименьшим временем были в начале массива и выводим на экран.
                 Console.Clear();
                 Sort(car);
                 for(int c = 0; c < car.Length; c++)
                 {
-                    Console.WriteLine("{0,-8}{1,-2}{2,-7}{3,-25}{4,-12}{5,3}{6,0}","Место: ", c+1, "Name: ", car[c].Name, "Total time: ", car[c].TotalTime / 1000, " сек");
+                    Console.WriteLine("{0,-8}{1,-2}{2,-7}{3,-25}{4,-12}{5,3}{6,0}","Место: ", c + 1, "Name: ", car[c].Name, "Total time: ", car[c].TotalTime / 1000, " сек");
                 }
+                Console.ReadKey();
             }
             catch (Exception ex)
             {

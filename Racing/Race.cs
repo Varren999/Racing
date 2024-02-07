@@ -10,8 +10,10 @@ namespace Racing
     {
         public delegate void delRace(int lap);
         public delegate void delFinRace();
+
         public event delRace startRace;
         public event delFinRace stopRace;
+
 
         public void Start(int countLap)
         {

@@ -136,7 +136,7 @@ namespace Racing
         //
         public void Finish()
         {
-            item.Wait();  
+            item.Wait();
         }
 
         //
